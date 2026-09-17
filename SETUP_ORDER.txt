@@ -1,0 +1,14 @@
+SECUREPAPER - QUICK SETUP ORDER
+
+1. Create Supabase project.
+2. Run schema.sql.
+3. Create PRIVATE storage bucket: question-papers.
+4. Create venv and pip install -r requirements.txt.
+5. Run: python generate_key.py
+6. Copy .env.example to .env and fill all values.
+7. Run: python make_hash.py for each demo account.
+8. Replace placeholders in seed_users.sql.
+9. Run seed_users.sql in Supabase.
+10. Run: python app.py
+11. Open: http://127.0.0.1:5000
+12. Demonstrate: SETTER -> MODERATOR -> RELEASE_OFFICER -> DECRYPT -> ADMIN/AUDIT.

@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SecurePaper | Login</title><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body class="auth-page">
+<div class="auth-shell">
+  <section class="brand-panel"><div class="brand-mark">SP</div><p class="eyebrow">DIGITAL EXAMINATION CONTROL</p><h1>SecurePaper</h1><p>A modern examination control portal for secure question-paper handling, centre-based access, controlled release and complete audit visibility.</p><div class="security-pills"><span>AES-256-GCM</span><span>RBAC</span><span>4-EYES</span><span>SHA-256</span></div></section>
+  <section class="auth-card"><p class="eyebrow">AUTHORIZED ACCESS</p><h2>Sign in</h2><p class="muted">Use your assigned examination-system account.</p>
+  {% with messages=get_flashed_messages(with_categories=true) %}{% for category,message in messages %}<div class="alert {{ category }}">{{ message }}</div>{% endfor %}{% endwith %}
+  <form method="post" class="form-stack"><label>Username<input name="username" autocomplete="username" required></label><label>Password<input type="password" name="password" autocomplete="current-password" required></label><button class="primary-btn" type="submit">Sign in securely</button></form>
+  <div class="login-note"><strong>Security notice</strong><span>Login attempts are recorded in the audit log.</span></div></section>
+</div>
+</body></html>

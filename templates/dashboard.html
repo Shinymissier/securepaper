@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SecurePaper - Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        /* =========================================================
+           DASHBOARD
+        ========================================================= */
+
+        .dashboard-container {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 35px 20px 60px;
+        }
+
+        /* Welcome section */
+        .welcome-card {
+            background: linear-gradient(135deg, #111936, #304fc4);
+            border-radius: 24px;
+            padding: 35px;
+            color: white;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 35px rgba(20, 40, 100, 0.20);
+        }
+
+        .welcome-label {
+            color: #6ee7f9;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .welcome-card h1 {
+            margin: 0 0 12px;
+            font-size: 34px;
+        }
+
+        .welcome-info {
+            margin: 0;
+            font-size: 15px;
+            color: #e6ecff;
+        }
+
+        .welcome-info strong {
+            color: white;
+        }
+
+        /* Statistics */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 18px;
+            padding: 22px;
+            border: 1px solid #e7eaf2;
+            box-shadow: 0 8px 25px rgba(20, 30, 70, 0.07);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(#536dfe, #00b8d9);
+        }
+
+        .stat-title {
+            color: #7b849b;
+            font-size: 13px;
+            margin-bottom: 7px;
+        }
+
+        .stat-number {
+            font-size: 30px;
+            font-weight: 800;
+            color: #101936;
+        }
+
+        .stat-description {
+            color: #9aa3b8;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        /* Main papers card */
+        .papers-card {
+            background: white;
+            border-radius: 22px;
+            border: 1px solid #e5e8f0;
+            box-shadow: 0 10px 30px rgba(20, 30, 70, 0.08);
+            overflow: hidden;
+        }
+
+        .papers-header {
+            padding: 25px 27px;
+            border-bottom: 1px solid #edf0f5;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-label {
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .papers-header h2 {
+            margin: 0;
+            color: #101936;
+            font-size: 22px;
+        }
+
+        .secure-badge {
+            background: #e8faf4;
+            color: #087f5b;
+            padding: 9px 15px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        /* Paper list */
+        .paper-list {
+            padding: 10px 20px 20px;
+        }
+
+        .paper-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+
+            padding: 20px;
+            margin: 10px 0;
+
+            border: 1px solid #e8ebf2;
+            border-radius: 15px;
+            background: #fbfcff;
+
+            transition: 0.2s ease;
+        }
+
+        .paper-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(30, 50, 100, 0.08);
+            border-color: #cbd5ff;
+        }
+
+        .paper-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            min-width: 0;
+        }
+
+        .paper-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #eef2ff;
+            color: #4056d6;
+            font-size: 21px;
+            flex-shrink: 0;
+        }
+
+        .paper-details {
+            min-width: 0;
+        }
+
+        .paper-name {
+            color: #111936;
+            font-weight: 700;
+            font-size: 15px;
+
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .paper-meta {
+            margin-top: 6px;
+            color: #7b849b;
+            font-size: 12px;
+        }
+
+        .paper-meta span {
+            margin-right: 14px;
+        }
+
+        .released-status {
+            color: #087f5b;
+            font-weight: 700;
+        }
+
+        .download-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            background: linear-gradient(135deg, #4056d6, #2463e8);
+            color: white;
+
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 13px;
+
+            padding: 11px 17px;
+            border-radius: 10px;
+
+            white-space: nowrap;
+
+            transition: 0.2s ease;
+        }
+
+        .download-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 7px 18px rgba(52, 85, 210, 0.25);
+        }
+
+        /* Empty state */
+        .empty-state {
+            padding: 65px 20px;
+            text-align: center;
+        }
+
+        .empty-icon {
+            width: 55px;
+            height: 55px;
+
+            margin: 0 auto 15px;
+
+            border: 2px solid #8d99b5;
+            border-radius: 12px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #64748b;
+            font-size: 25px;
+        }
+
+        .empty-state h3 {
+            margin: 0 0 8px;
+            color: #1b2748;
+            font-size: 17px;
+        }
+
+        .empty-state p {
+            margin: 0;
+            color: #8290aa;
+            font-size: 14px;
+        }
+
+        /* Flash messages */
+        .flash-container {
+            max-width: 1180px;
+            margin: 20px auto 0;
+            padding: 0 20px;
+        }
+
+        .flash-message {
+            padding: 13px 18px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .flash-success {
+            background: #e8faf4;
+            color: #087f5b;
+            border: 1px solid #b7ead8;
+        }
+
+        .flash-error {
+            background: #fff0f0;
+            color: #b42318;
+            border: 1px solid #ffd0d0;
+        }
+
+        /* Centre information */
+        .centre-banner {
+            background: #eef5ff;
+            border: 1px solid #d6e5ff;
+            color: #274690;
+
+            padding: 13px 17px;
+            border-radius: 12px;
+
+            margin-bottom: 20px;
+
+            font-size: 13px;
+        }
+
+        .centre-banner strong {
+            color: #15295e;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 650px) {
+            .dashboard-container {
+                padding: 20px 12px 40px;
+            }
+
+            .welcome-card {
+                padding: 25px;
+            }
+
+            .welcome-card h1 {
+                font-size: 27px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .papers-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .paper-item {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .download-button {
+                width: 100%;
+            }
+
+            .paper-left {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<nav class="navbar">
+
+    <div class="nav-container">
+
+        <a href="{{ url_for('dashboard') }}" class="brand">
+            <span class="brand-icon">SP</span>
+            <span>SecurePaper</span>
+        </a>
+
+        <a href="{{ url_for('logout') }}" class="logout-button">
+            Logout
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- =========================================================
+     FLASH MESSAGES
+========================================================= -->
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+
+    {% if messages %}
+
+        <div class="flash-container">
+
+            {% for category, message in messages %}
+
+                <div class="flash-message
+                    {% if category == 'success' %}
+                        flash-success
+                    {% else %}
+                        flash-error
+                    {% endif %}">
+
+                    {{ message }}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+{% endwith %}
+
+
+<!-- =========================================================
+     DASHBOARD
+========================================================= -->
+
+<main class="dashboard-container">
+
+    <!-- Welcome -->
+    <section class="welcome-card">
+
+        <div class="welcome-label">
+            Secure Question-Paper Management
+        </div>
+
+        <h1>
+            Welcome, {{ session.get('username', 'User') }}.
+        </h1>
+
+        <p class="welcome-info">
+
+            Role:
+            <strong>{{ role }}</strong>
+
+            {% if role == 'EXAM_CENTRE' %}
+
+                · Centre:
+                <strong>
+                    {{ session.get('examination_centre') or 'Not Assigned' }}
+                </strong>
+
+            {% endif %}
+
+            · Cloud vault status:
+            <strong>protected</strong>
+
+        </p>
+
+    </section>
+
+
+    <!-- Exam Centre Information -->
+    {% if role == 'EXAM_CENTRE' %}
+
+        <div class="centre-banner">
+
+            🔐 You are authorized to access released question papers
+            assigned to:
+
+            <strong>
+                {{ session.get('examination_centre') or 'No examination centre assigned' }}
+            </strong>
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- Statistics -->
+    <section class="stats-grid">
+
+        <div class="stat-card">
+
+            <div class="stat-title">
+                Total Papers
+            </div>
+
+            <div class="stat-number">
+                {{ counts.get('total', 0) }}
+            </div>
+
+            <div class="stat-description">
+                Managed records
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-title">
+                Pending
+            </div>
+
+            <div class="stat-number">
+                {{ counts.get('pending', 0) }}
+            </div>
+
+            <div class="stat-description">
+                Awaiting moderation
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-title">
+                Approved
+            </div>
+
+            <div class="stat-number">
+                {{ counts.get('approved', 0) }}
+            </div>
+
+            <div class="stat-description">
+                Awaiting release
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-title">
+                Released
+            </div>
+
+            <div class="stat-number">
+                {{ counts.get('released', 0) }}
+            </div>
+
+            <div class="stat-description">
+                Controlled access
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Question Papers -->
+    <section class="papers-card">
+
+        <div class="papers-header">
+
+            <div>
+
+                <div class="section-label">
+                    Cloud Vault
+                </div>
+
+                <h2>
+                    Question Papers
+                </h2>
+
+            </div>
+
+            <div class="secure-badge">
+                ● Encrypted at rest
+            </div>
+
+        </div>
+
+
+        {% if papers and papers|length > 0 %}
+
+            <div class="paper-list">
+
+                {% for paper in papers %}
+
+                    <div class="paper-item">
+
+                        <div class="paper-left">
+
+                            <div class="paper-icon">
+                                📄
+                            </div>
+
+                            <div class="paper-details">
+
+                                <div class="paper-name">
+                                    {{ paper.get('original_name', 'Question Paper') }}
+                                </div>
+
+                                <div class="paper-meta">
+
+                                    <span>
+                                        ID: {{ paper.get('id') }}
+                                    </span>
+
+                                    {% if paper.get('examination_centre') %}
+
+                                        <span>
+                                            Centre:
+                                            {{ paper.get('examination_centre') }}
+                                        </span>
+
+                                    {% endif %}
+
+                                    <span class="released-status">
+                                        ● RELEASED
+                                    </span>
+
+                                </div>
+
+                                {% if paper.get('scheduled_release') %}
+
+                                    <div class="paper-meta">
+
+                                        Released/Scheduled:
+                                        {{ paper.get(
+                                            'scheduled_release_display',
+                                            paper.get('scheduled_release')
+                                        ) }}
+
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Download / Decrypt -->
+                        <a
+                            href="{{ url_for('download_paper', paper_id=paper.get('id')) }}"
+                            class="download-button"
+                        >
+                            🔓 Access Paper
+                        </a>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <!-- Empty State -->
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    ▣
+                </div>
+
+                {% if role == 'EXAM_CENTRE' %}
+
+                    <h3>
+                        No released question papers
+                    </h3>
+
+                    <p>
+                        No released papers are currently assigned
+                        to your examination centre.
+                    </p>
+
+                {% else %}
+
+                    <h3>
+                        No question papers yet
+                    </h3>
+
+                    <p>
+                        Upload a paper to begin the secure workflow.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        {% endif %}
+
+    </section>
+
+</main>
+
+</body>
+</html>
