@@ -414,11 +414,10 @@ Input
 Sample Input 3 – Moderator Approval
 
 Input
-
-Paper ID: 12
-Action: APPROVE
+<img width="1464" height="721" alt="image" src="https://github.com/user-attachments/assets/d1224849-e22b-496d-850c-d48b83949a36" />
 
 Expected Output
+<img width="1535" height="351" alt="image" src="https://github.com/user-attachments/assets/5ebd7489-f9a5-4a1c-a3d5-a83cfff9b0fa" />
 
 Question paper approved successfully.
 Status: APPROVED
@@ -426,11 +425,11 @@ Status: APPROVED
 Sample Input 4 – Release
 
 Input
+<img width="1476" height="700" alt="image" src="https://github.com/user-attachments/assets/454656c7-0b3d-4e36-9277-515993e81bf2" />
 
-Paper ID: 12
-Action: RELEASE
 
 Expected Output
+<img width="1531" height="456" alt="image" src="https://github.com/user-attachments/assets/e6884c88-8854-4232-a2e4-75f1bdfad702" />
 
 Question paper released successfully.
 Status: RELEASED
@@ -440,6 +439,7 @@ The release timestamp is recorded in the database.
 Sample Input 5 – Examination Centre Access
 
 Input
+<img width="1490" height="722" alt="image" src="https://github.com/user-attachments/assets/d5488de3-d64d-40c6-999e-c2bf18a6bbd0" />
 
 Logged-in Role: EXAM_CENTRE
 Examination Centre: Coimbatore Centre
@@ -458,10 +458,9 @@ Sample Input 6 – Unauthorized Centre
 
 Input
 
-Logged-in Role: EXAM_CENTRE
-User Centre: Chennai Centre
-Paper Centre: Coimbatore Centre
-Paper Status: RELEASED
+<img width="1483" height="738" alt="image" src="https://github.com/user-attachments/assets/73099b78-4dfd-4f8b-8b9e-10aa6e3b1ae3" />
+<img width="1463" height="721" alt="image" src="https://github.com/user-attachments/assets/a79ed598-c273-4871-9b7c-d9ebbbbcce88" />
+<img width="1448" height="719" alt="image" src="https://github.com/user-attachments/assets/9e06da1c-dcfb-4b69-8840-444c5f7c20c2" />
 
 Expected Output
 
@@ -583,176 +582,8 @@ SYSTEM
   -> verifies SHA-256 integrity
   -> records audit activity
 
-14. GitHub Submission Checklist
 
-Before submitting the repository, verify:
-
-[✓] Source code
-[✓] README.md
-[✓] requirements.txt
-[✓] schema.sql
-[✓] templates/
-[✓] static/
-[✓] All required project files
-[✓] Installation instructions
-[✓] Project structure and module descriptions
-[✓] Sample input and output
-[✓] No passwords or secret keys
-[✓] No unnecessary temporary files
-
-Do not upload real credentials or private keys to GitHub.
-
-Recommended .gitignore:
-
-.env
-venv/
-__pycache__/
-*.pyc
-uploads/
-
-15. Common Troubleshooting
-
-Examination Centre Shows None
-
-Check:
-
-SELECT id, username, role, examination_centre, active
-FROM public.users
-WHERE username = 'examcentre01';
-
-If required:
-
-ALTER TABLE public.users
-ADD COLUMN IF NOT EXISTS examination_centre text;
-
-Assign the centre:
-
-UPDATE public.users
-SET examination_centre = 'Coimbatore Centre'
-WHERE username = 'examcentre01';
-
-Log out and log in again so the updated centre is loaded into the session.
-
-Released Paper Is Not Showing
-
-Check:
-
-SELECT
-    id,
-    original_name,
-    examination_centre,
-    status,
-    scheduled_release,
-    released_at
-FROM public.question_papers
-ORDER BY id DESC;
-
-Make sure:
-
-status = RELEASED
-
-and the paper's examination centre matches the logged-in examination-centre user's assignment.
-
-released_at Column Error
-
-Run:
-
-ALTER TABLE public.question_papers
-ADD COLUMN IF NOT EXISTS released_at timestamptz;
-
-16. Evaluation Alignment – 20 Marks
-
-Functionality & Correctness – 10 Marks
-
-Demonstrable functionality includes:
-
-User authentication
-
-Role-based authorization
-
-Question-paper upload
-
-Moderation
-
-Approval / rejection
-
-Controlled release
-
-Examination-centre restriction
-
-Secure paper access
-
-Decryption
-
-SHA-256 integrity verification
-
-Audit logging
-
-Documentation – 5 Marks
-
-The repository contains:
-
-Project title
-
-Project description
-
-Technologies/tools used
-
-Installation steps
-
-Running instructions
-
-Project structure
-
-Module descriptions
-
-Sample input and output
-
-Database setup
-
-Troubleshooting guidance
-
-Code Quality – 5 Marks
-
-The project is organized into:
-
-Application code
-Database schema
-Templates
-Static files
-Dependency file
-Configuration
-Documentation
-
-Sensitive configuration values are kept outside the source code using environment variables.
-
-17. Security Recommendations
-
-For production use:
-
-Never expose the Supabase service-role key to the browser.
-
-Keep the Storage bucket private.
-
-Never store plain-text passwords.
-
-Use a strong Flask SECRET_KEY.
-
-Use a securely generated AES-256 key.
-
-Keep .env out of version control.
-
-Validate uploaded file types and sizes.
-
-Restrict database access using proper server-side authorization.
-
-Log important security actions.
-
-Use HTTPS in production.
-
-Rotate credentials if they are accidentally exposed.
-
-18. Conclusion
+15. Conclusion
 
 SecurePaper provides a secure and controlled workflow for examination question-paper management.
 
