@@ -1,8 +1,4 @@
-SecurePaper – Secure Examination Question Paper Management System
-
-1. Project Title
-
-SecurePaper – Secure Examination Question Paper Management System
+Title: SecurePaper – Secure Examination Question Paper Management System
 
 2. Brief Description
 
@@ -397,30 +393,23 @@ Sample Input 1 – Login
 
 Input
 
+Username: setter01
+Password: Setter@123
+Username: moderator01
+Password: moderator@123
+Username: admin01
+Password: admin@123
 Username: examcentre01
-Password: ********
+Password: examcentre123
+<img width="1143" height="683" alt="image" src="https://github.com/user-attachments/assets/845bd1d9-20fe-4a70-8b7d-83372be6a807" />
 
-Expected Output
-
-Login successful.
-Dashboard opened.
-Role: EXAM_CENTRE
-Examination Centre: Coimbatore Centre
 
 Sample Input 2 – Upload Question Paper
 
 Input
+<img width="1503" height="720" alt="image" src="https://github.com/user-attachments/assets/a9a22ac3-20df-41b3-aba8-0e2db098145e" />
 
-File: Mathematics_Model_Question_Paper.pdf
-Examination Centre: Coimbatore Centre
-Scheduled Release: 20 Sep 2026 09:00 AM
-
-Expected Output
-
-Question paper uploaded successfully.
-Status: PENDING
-
-The uploaded file is encrypted before secure storage and its SHA-256 hash is stored for integrity verification.
+<img width="1493" height="713" alt="image" src="https://github.com/user-attachments/assets/264d3e0c-cb79-4a34-995c-709e03587298" />
 
 Sample Input 3 – Moderator Approval
 
