@@ -20,7 +20,10 @@
             padding: 35px 20px 60px;
         }
 
-        /* Welcome section */
+        /* =========================================================
+           WELCOME SECTION
+        ========================================================= */
+
         .welcome-card {
             background: linear-gradient(135deg, #111936, #304fc4);
             border-radius: 24px;
@@ -54,7 +57,10 @@
             color: white;
         }
 
-        /* Statistics */
+        /* =========================================================
+           STATISTICS
+        ========================================================= */
+
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -100,7 +106,10 @@
             margin-top: 5px;
         }
 
-        /* Main papers card */
+        /* =========================================================
+           PAPERS CARD
+        ========================================================= */
+
         .papers-card {
             background: white;
             border-radius: 22px;
@@ -112,7 +121,6 @@
         .papers-header {
             padding: 25px 27px;
             border-bottom: 1px solid #edf0f5;
-
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -144,7 +152,10 @@
             white-space: nowrap;
         }
 
-        /* Paper list */
+        /* =========================================================
+           PAPER LIST
+        ========================================================= */
+
         .paper-list {
             padding: 10px 20px 20px;
         }
@@ -217,10 +228,41 @@
             margin-right: 14px;
         }
 
-        .released-status {
-            color: #087f5b;
-            font-weight: 700;
+        /* =========================================================
+           STATUS BADGES
+        ========================================================= */
+
+        .status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 800;
         }
+
+        .status.pending {
+            background: #fff5d9;
+            color: #9a6900;
+        }
+
+        .status.approved {
+            background: #e9eaff;
+            color: #4338ca;
+        }
+
+        .status.rejected {
+            background: #ffedf0;
+            color: #c52f49;
+        }
+
+        .status.released {
+            background: #e7f8f0;
+            color: #087b57;
+        }
+
+        /* =========================================================
+           DOWNLOAD BUTTON
+        ========================================================= */
 
         .download-button {
             display: inline-flex;
@@ -247,7 +289,33 @@
             box-shadow: 0 7px 18px rgba(52, 85, 210, 0.25);
         }
 
-        /* Empty state */
+        /* =========================================================
+           NOT RELEASED
+        ========================================================= */
+
+        .locked-note {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #f1f5f9;
+            color: #64748b;
+
+            border: 1px solid #e2e8f0;
+
+            padding: 11px 17px;
+            border-radius: 10px;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            white-space: nowrap;
+        }
+
+        /* =========================================================
+           EMPTY STATE
+        ========================================================= */
+
         .empty-state {
             padding: 65px 20px;
             text-align: center;
@@ -282,7 +350,10 @@
             font-size: 14px;
         }
 
-        /* Flash messages */
+        /* =========================================================
+           FLASH MESSAGES
+        ========================================================= */
+
         .flash-container {
             max-width: 1180px;
             margin: 20px auto 0;
@@ -309,7 +380,10 @@
             border: 1px solid #ffd0d0;
         }
 
-        /* Centre information */
+        /* =========================================================
+           EXAMINATION CENTRE
+        ========================================================= */
+
         .centre-banner {
             background: #eef5ff;
             border: 1px solid #d6e5ff;
@@ -327,14 +401,19 @@
             color: #15295e;
         }
 
-        /* Responsive */
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
         @media (max-width: 900px) {
+
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
 
         @media (max-width: 650px) {
+
             .dashboard-container {
                 padding: 20px 12px 40px;
             }
@@ -361,7 +440,8 @@
                 flex-direction: column;
             }
 
-            .download-button {
+            .download-button,
+            .locked-note {
                 width: 100%;
             }
 
@@ -380,16 +460,59 @@
 
 <nav class="navbar">
 
-    <div class="nav-container">
+    <div class="nav-inner">
 
+        <!-- BRAND -->
         <a href="{{ url_for('dashboard') }}" class="brand">
-            <span class="brand-icon">SP</span>
-            <span>SecurePaper</span>
+
+            <span class="brand-mark">
+                SP
+            </span>
+
+            <span>
+
+                <span class="brand-title">
+                    SecurePaper
+                </span>
+
+                <span class="brand-subtitle">
+                    Secure Examination Paper Management
+                </span>
+
+            </span>
+
         </a>
 
-        <a href="{{ url_for('logout') }}" class="logout-button">
-            Logout
-        </a>
+
+        <!-- NAVIGATION -->
+        <div class="nav-right">
+
+            <div class="online">
+                <span class="online-dot"></span>
+                Secure system online
+            </div>
+
+
+            {% if role in ['SETTER', 'ADMIN'] %}
+
+                <a href="{{ url_for('upload') }}"
+                   class="upload-nav-btn">
+
+                    + Upload Paper
+
+                </a>
+
+            {% endif %}
+
+
+            <a href="{{ url_for('logout') }}"
+               class="logout">
+
+                Logout
+
+            </a>
+
+        </div>
 
     </div>
 
@@ -434,49 +557,67 @@
 
 <main class="dashboard-container">
 
-    <!-- Welcome -->
+
+    <!-- =====================================================
+         WELCOME
+    ====================================================== -->
+
     <section class="welcome-card">
 
         <div class="welcome-label">
             Secure Question-Paper Management
         </div>
 
+
         <h1>
             Welcome, {{ session.get('username', 'User') }}.
         </h1>
 
+
         <p class="welcome-info">
 
             Role:
-            <strong>{{ role }}</strong>
+            <strong>
+                {{ role }}
+            </strong>
+
 
             {% if role == 'EXAM_CENTRE' %}
 
                 · Centre:
+
                 <strong>
                     {{ session.get('examination_centre') or 'Not Assigned' }}
                 </strong>
 
             {% endif %}
 
+
             · Cloud vault status:
-            <strong>protected</strong>
+
+            <strong>
+                protected
+            </strong>
 
         </p>
 
     </section>
 
 
-    <!-- Exam Centre Information -->
+    <!-- =====================================================
+         EXAMINATION CENTRE INFORMATION
+    ====================================================== -->
+
     {% if role == 'EXAM_CENTRE' %}
 
         <div class="centre-banner">
 
-            🔐 You are authorized to access released question papers
-            assigned to:
+            🔐 You are authorized to access released question
+            papers assigned to:
 
             <strong>
-                {{ session.get('examination_centre') or 'No examination centre assigned' }}
+                {{ session.get('examination_centre') or
+                   'No examination centre assigned' }}
             </strong>
 
         </div>
@@ -484,8 +625,14 @@
     {% endif %}
 
 
-    <!-- Statistics -->
+    <!-- =====================================================
+         STATISTICS
+    ====================================================== -->
+
     <section class="stats-grid">
+
+
+        <!-- TOTAL -->
 
         <div class="stat-card">
 
@@ -504,6 +651,8 @@
         </div>
 
 
+        <!-- PENDING -->
+
         <div class="stat-card">
 
             <div class="stat-title">
@@ -521,6 +670,8 @@
         </div>
 
 
+        <!-- APPROVED -->
+
         <div class="stat-card">
 
             <div class="stat-title">
@@ -537,6 +688,8 @@
 
         </div>
 
+
+        <!-- RELEASED -->
 
         <div class="stat-card">
 
@@ -557,8 +710,14 @@
     </section>
 
 
-    <!-- Question Papers -->
+    <!-- =====================================================
+         QUESTION PAPERS
+    ====================================================== -->
+
     <section class="papers-card">
+
+
+        <!-- HEADER -->
 
         <div class="papers-header">
 
@@ -574,6 +733,7 @@
 
             </div>
 
+
             <div class="secure-badge">
                 ● Encrypted at rest
             </div>
@@ -581,55 +741,142 @@
         </div>
 
 
+        <!-- =================================================
+             PAPERS AVAILABLE
+        ================================================== -->
+
         {% if papers and papers|length > 0 %}
 
             <div class="paper-list">
+
 
                 {% for paper in papers %}
 
                     <div class="paper-item">
 
+
+                        <!-- PAPER INFORMATION -->
+
                         <div class="paper-left">
+
+
+                            <!-- FILE ICON -->
 
                             <div class="paper-icon">
                                 📄
                             </div>
 
+
+                            <!-- DETAILS -->
+
                             <div class="paper-details">
 
-                                <div class="paper-name">
-                                    {{ paper.get('original_name', 'Question Paper') }}
+
+                                <!-- FILE NAME -->
+
+                                <div
+                                    class="paper-name"
+                                    title="{{ paper.get(
+                                        'original_name',
+                                        'Question Paper'
+                                    ) }}"
+                                >
+                                    {{ paper.get(
+                                        'original_name',
+                                        'Question Paper'
+                                    ) }}
                                 </div>
+
+
+                                <!-- META -->
 
                                 <div class="paper-meta">
 
+
+                                    <!-- ID -->
+
                                     <span>
-                                        ID: {{ paper.get('id') }}
+                                        ID:
+                                        {{ paper.get('id') }}
                                     </span>
+
+
+                                    <!-- CENTRE -->
 
                                     {% if paper.get('examination_centre') %}
 
                                         <span>
+
                                             Centre:
-                                            {{ paper.get('examination_centre') }}
+                                            {{ paper.get(
+                                                'examination_centre'
+                                            ) }}
+
                                         </span>
 
                                     {% endif %}
 
-                                    <span class="released-status">
-                                        ● RELEASED
-                                    </span>
+
+                                    <!-- =================================
+                                         ACTUAL PAPER STATUS
+                                    ================================== -->
+
+                                    {% if paper.get('status') == 'RELEASED' %}
+
+                                        <span class="status released">
+                                            ● RELEASED
+                                        </span>
+
+
+                                    {% elif paper.get('status') == 'APPROVED' %}
+
+                                        <span class="status approved">
+                                            ● APPROVED
+                                        </span>
+
+
+                                    {% elif paper.get('status') == 'PENDING' %}
+
+                                        <span class="status pending">
+                                            ● PENDING
+                                        </span>
+
+
+                                    {% elif paper.get('status') == 'REJECTED' %}
+
+                                        <span class="status rejected">
+                                            ● REJECTED
+                                        </span>
+
+
+                                    {% else %}
+
+                                        <span class="status">
+                                            ●
+                                            {{ paper.get(
+                                                'status',
+                                                'UNKNOWN'
+                                            ) }}
+                                        </span>
+
+                                    {% endif %}
 
                                 </div>
+
+
+                                <!-- RELEASE TIME -->
 
                                 {% if paper.get('scheduled_release') %}
 
                                     <div class="paper-meta">
 
                                         Released/Scheduled:
+
                                         {{ paper.get(
                                             'scheduled_release_display',
-                                            paper.get('scheduled_release')
+                                            paper.get(
+                                                'scheduled_release'
+                                            )
                                         ) }}
 
                                     </div>
@@ -641,13 +888,31 @@
                         </div>
 
 
-                        <!-- Download / Decrypt -->
-                        <a
-                            href="{{ url_for('download_paper', paper_id=paper.get('id')) }}"
-                            class="download-button"
-                        >
-                            🔓 Access Paper
-                        </a>
+                        <!-- =================================================
+                             ACCESS BUTTON
+                             ONLY RELEASED PAPERS CAN BE ACCESSED
+                        ================================================== -->
+
+                        {% if paper.get('status') == 'RELEASED' %}
+
+                            <a
+                                href="{{ url_for(
+                                    'download_paper',
+                                    paper_id=paper.get('id')
+                                ) }}"
+                                class="download-button"
+                            >
+                                🔓 Access Paper
+                            </a>
+
+                        {% else %}
+
+                            <span class="locked-note">
+                                🔒 Not Released
+                            </span>
+
+                        {% endif %}
+
 
                     </div>
 
@@ -655,15 +920,19 @@
 
             </div>
 
-        {% else %}
 
-            <!-- Empty State -->
+        <!-- =================================================
+             EMPTY STATE
+        ================================================== -->
+
+        {% else %}
 
             <div class="empty-state">
 
                 <div class="empty-icon">
                     ▣
                 </div>
+
 
                 {% if role == 'EXAM_CENTRE' %}
 
@@ -675,6 +944,7 @@
                         No released papers are currently assigned
                         to your examination centre.
                     </p>
+
 
                 {% else %}
 
